@@ -1,193 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>UFont Converter</title>
+
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* -------------------------
+   RESET + BASE
+--------------------------*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+:root {
+  --bg1: #0f172a;
+  --bg2: #111827;
+  --card: rgba(255,255,255,0.06);
+  --card2: rgba(255,255,255,0.09);
+  --border: rgba(255,255,255,0.12);
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+
+  --green: #22c55e;
+  --red: #ef4444;
+  --blue: #3b82f6;
+
+  --radius: 14px;
+}
+
+/* LIGHT MODE */
+@media (prefers-color-scheme: light) {
   :root {
-    --bg: #f5f5f3;
-    --surface: #ffffff;
-    --surface2: #f0efec;
-    --border: rgba(0,0,0,0.12);
-    --border2: rgba(0,0,0,0.22);
-    --text: #1a1a18;
-    --text2: #6b6b67;
-    --text3: #9b9b96;
-    --green-bg: #eaf3de;
-    --green-text: #3b6d11;
-    --red-bg: #fcebeb;
-    --red-text: #a32d2d;
-    --blue-bg: #e6f1fb;
-    --blue-text: #185fa5;
-    --radius: 8px;
-    --radius-lg: 12px;
+    --bg1: #f5f7fb;
+    --bg2: #eef2ff;
+    --card: rgba(255,255,255,0.7);
+    --card2: rgba(255,255,255,0.9);
+    --border: rgba(0,0,0,0.08);
+    --text: #111827;
+    --muted: #6b7280;
   }
+}
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1c1c1a;
-      --surface: #2a2a28;
-      --surface2: #222220;
-      --border: rgba(255,255,255,0.1);
-      --border2: rgba(255,255,255,0.2);
-      --text: #e8e8e4;
-      --text2: #9b9b96;
-      --text3: #6b6b67;
-      --green-bg: #173404;
-      --green-text: #c0dd97;
-      --red-bg: #501313;
-      --red-text: #f7c1c1;
-      --blue-bg: #042c53;
-      --blue-text: #b5d4f4;
-    }
-  }
+/* -------------------------
+   BACKGROUND
+--------------------------*/
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px;
+  color: var(--text);
+  background: radial-gradient(circle at top, var(--bg2), var(--bg1));
+}
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 3rem 1rem 4rem;
-  }
+/* -------------------------
+   LAYOUT
+--------------------------*/
+.container {
+  width: 100%;
+  max-width: 620px;
+}
 
-  .container { width: 100%; max-width: 580px; }
+/* HEADER */
+header {
+  margin-bottom: 24px;
+  text-align: center;
+}
 
-  header { margin-bottom: 2rem; }
-  header h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
-  header p { font-size: 14px; color: var(--text2); }
+header h1 {
+  font-size: 22px;
+  letter-spacing: 0.3px;
+}
 
-  #drop-zone {
-    border: 1.5px dashed var(--border2);
-    border-radius: var(--radius-lg);
-    padding: 3rem 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-    background: var(--surface);
-  }
-  #drop-zone:hover, #drop-zone.drag-over {
-    background: var(--surface2);
-    border-color: var(--text3);
-  }
+header p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 6px;
+}
 
-  .drop-icon {
-    width: 48px; height: 48px;
-    border-radius: var(--radius-lg);
-    background: var(--surface2);
-    border: 0.5px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 1rem;
-    font-size: 22px;
-  }
+/* -------------------------
+   DROP ZONE
+--------------------------*/
+#drop-zone {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 34px 20px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  transition: 0.2s ease;
+  cursor: pointer;
+}
 
-  #drop-zone h2 { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
-  #drop-zone p { font-size: 13px; color: var(--text2); margin-bottom: 1.25rem; }
+#drop-zone:hover {
+  transform: translateY(-2px);
+  background: var(--card2);
+}
 
-  button {
-    font-family: inherit;
-    font-size: 13px;
-    padding: 7px 16px;
-    border-radius: var(--radius);
-    border: 0.5px solid var(--border2);
-    background: transparent;
-    color: var(--text);
-    cursor: pointer;
-    transition: background 0.12s;
-  }
-  button:hover { background: var(--surface2); }
-  button:active { transform: scale(0.98); }
+#drop-zone.drag-over {
+  border-color: var(--blue);
+  transform: scale(1.01);
+}
 
-  .btn-primary {
-    background: var(--text);
-    color: var(--bg);
-    border-color: var(--text);
-  }
-  .btn-primary:hover { opacity: 0.85; background: var(--text); }
+.drop-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+  opacity: 0.8;
+}
 
-  #results { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 10px; }
+#drop-zone h2 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
 
-  .card {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 0.9rem 1.1rem;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+#drop-zone p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
 
-  .card-icon {
-    width: 38px; height: 38px;
-    border-radius: var(--radius);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 600;
-    flex-shrink: 0;
-    letter-spacing: 0.02em;
-  }
+/* -------------------------
+   BUTTONS
+--------------------------*/
+button {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
 
-  .card-info { flex: 1; min-width: 0; }
-  .card-name {
-    font-size: 14px; font-weight: 500;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    color: var(--text);
-    margin-bottom: 2px;
-  }
-  .card-meta { font-size: 12px; color: var(--text2); }
+button:hover {
+  background: rgba(255,255,255,0.08);
+}
 
-  .badge {
-    font-size: 11px; font-weight: 500;
-    padding: 2px 8px;
-    border-radius: 99px;
-    margin-left: 6px;
-  }
+.btn-primary {
+  background: var(--blue);
+  border-color: transparent;
+  color: white;
+}
 
-  .downloading { animation: pulse 1s ease-in-out infinite; }
-  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+.btn-primary:hover {
+  opacity: 0.9;
+}
 
-  .divider {
-    margin: 1.5rem 0 1rem;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .divider-line { flex: 1; height: 0.5px; background: var(--border); }
-  .divider-text { font-size: 12px; color: var(--text3); }
+/* -------------------------
+   RESULTS
+--------------------------*/
+#results {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-  #batch-bar {
-    display: none;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 1rem;
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius-lg);
-    margin-top: 1rem;
-  }
-  #batch-bar p { font-size: 13px; color: var(--text2); }
+/* CARD */
+.card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  transition: 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+/* ICON */
+.card-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 11px;
+  background: rgba(255,255,255,0.1);
+}
+
+/* INFO */
+.card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-name {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-meta {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* BADGES */
+.badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: 6px;
+}
+
+/* BATCH BAR */
+#batch-bar {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+/* LOADING */
+.downloading {
+  opacity: 0.5;
+}
 </style>
 </head>
+
 <body>
 <div class="container">
+
   <header>
     <h1>UFont Converter</h1>
-    <p>Detects the real font format inside .ufont files and fixes header issues.</p>
+    <p>Fixes broken .ufont files and extracts real font formats</p>
   </header>
 
   <div id="drop-zone">
-    <div class="drop-icon">&#9679;</div>
+    <div class="drop-icon">⬇</div>
     <h2>Drop .ufont files here</h2>
-    <p>Supports TTF, OTF, WOFF, WOFF2 — multiple files at once</p>
-    <button onclick="document.getElementById('file-input').click()">Choose files</button>
-    <input type="file" id="file-input" accept=".ufont" multiple style="display:none;">
+    <p>TTF · OTF · WOFF · WOFF2 supported</p>
+    <button onclick="fileInput.click()">Choose files</button>
+    <input type="file" id="file-input" accept=".ufont" multiple hidden>
   </div>
 
   <div id="batch-bar">
-    <p id="batch-label"></p>
-    <button id="batch-download-btn" class="btn-primary" onclick="downloadAll()">Download all</button>
+    <span id="batch-label"></span>
+    <button class="btn-primary" onclick="downloadAll()">Download all</button>
   </div>
 
   <div id="results"></div>
@@ -195,176 +264,128 @@
 
 <script>
 const SIGNATURES = [
-  { magic: [0x00,0x01,0x00,0x00], ext: 'ttf', label: 'TrueType' },
-  { magic: [0x4F,0x54,0x54,0x4F], ext: 'otf', label: 'OpenType CFF' },
-  { magic: [0x77,0x4F,0x46,0x46], ext: 'woff', label: 'WOFF' },
-  { magic: [0x77,0x4F,0x46,0x32], ext: 'woff2', label: 'WOFF2' },
-  { magic: [0x74,0x72,0x75,0x65], ext: 'ttf', label: 'TrueType (true)' },
-  { magic: [0x74,0x79,0x70,0x31], ext: 'ttf', label: 'TrueType (typ1)' },
+  { magic:[0x00,0x01,0x00,0x00], ext:'ttf', label:'TrueType' },
+  { magic:[0x4F,0x54,0x54,0x4F], ext:'otf', label:'OpenType' },
+  { magic:[0x77,0x4F,0x46,0x46], ext:'woff', label:'WOFF' },
+  { magic:[0x77,0x4F,0x46,0x32], ext:'woff2', label:'WOFF2' },
 ];
 
-const successResults = [];
+let success = [];
 
-function detectFont(bytes) {
-  const view = new Uint8Array(bytes);
-  for (const sig of SIGNATURES) {
-    for (let offset = 0; offset <= Math.min(64, view.length - 4); offset++) {
-      if (sig.magic.every((b, i) => view[offset + i] === b)) {
-        return { ext: sig.ext, label: sig.label, offset };
+function detect(buf){
+  const v = new Uint8Array(buf);
+  for(const s of SIGNATURES){
+    for(let i=0;i<64;i++){
+      if(s.magic.every((b,idx)=>v[i+idx]===b)){
+        return { ...s, offset:i };
       }
     }
   }
   return null;
 }
 
-function processFile(file) {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const buf = e.target.result;
-      const result = detectFont(buf);
-      if (!result) {
-        resolve({ file, success: false, reason: 'No recognized font signature found in file' });
-        return;
-      }
-      const fixedBuf = result.offset > 0 ? buf.slice(result.offset) : buf;
-      const blob = new Blob([fixedBuf], { type: 'font/' + result.ext });
-      const baseName = file.name.replace(/\.ufont$/i, '');
-      const outName = baseName + '.' + result.ext;
-      resolve({ file, success: true, blob, outName, label: result.label, offset: result.offset });
-    };
-    reader.readAsArrayBuffer(file);
-  });
+async function process(file){
+  const buf = await file.arrayBuffer();
+  const d = detect(buf);
+
+  if(!d){
+    return { file, ok:false, reason:'No font signature found' };
+  }
+
+  const fixed = d.offset ? buf.slice(d.offset) : buf;
+  const blob = new Blob([fixed], {type:'font/'+d.ext});
+
+  return {
+    ok:true,
+    blob,
+    name:file.name.replace(/\.ufont$/i,'')+'.'+d.ext,
+    label:d.label,
+    offset:d.offset
+  };
 }
 
-function downloadBlob(blob, name) {
+function download(blob,name){
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = name;
-  document.body.appendChild(a);
+  a.href=url; a.download=name;
   a.click();
-  document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  URL.revokeObjectURL(url);
 }
 
-function downloadAll() {
-  successResults.forEach(r => downloadBlob(r.blob, r.outName));
+function downloadAll(){
+  success.forEach(f=>download(f.blob,f.name));
 }
 
-function updateBatchBar() {
-  const bar = document.getElementById('batch-bar');
-  const label = document.getElementById('batch-label');
-  if (successResults.length >= 2) {
-    bar.style.display = 'flex';
-    label.textContent = `${successResults.length} fonts ready`;
-  } else {
-    bar.style.display = 'none';
-  }
-}
-
-function renderCard(res) {
+function render(res){
   const card = document.createElement('div');
-  card.className = 'card';
+  card.className='card';
 
   const icon = document.createElement('div');
-  icon.className = 'card-icon';
+  icon.className='card-icon';
 
   const info = document.createElement('div');
-  info.className = 'card-info';
+  info.className='card-info';
 
-  const actions = document.createElement('div');
-  actions.style.flexShrink = '0';
+  if(res.ok){
+    icon.textContent = res.name.split('.').pop().toUpperCase();
 
-  if (res.success) {
-    icon.style.background = 'var(--green-bg)';
-    icon.style.color = 'var(--green-text)';
-    icon.textContent = res.outName.split('.').pop().toUpperCase();
-
-    const fixedNote = res.offset > 0
-      ? `<span class="badge" style="background:var(--blue-bg);color:var(--blue-text)">Fixed ${res.offset}B header</span>`
-      : `<span class="badge" style="background:var(--surface2);color:var(--text2)">No fix needed</span>`;
-
-    info.innerHTML = `<div class="card-name">${res.outName}</div>
-      <div class="card-meta">${res.label}${fixedNote}</div>`;
+    info.innerHTML = `
+      <div class="card-name">${res.name}</div>
+      <div class="card-meta">
+        ${res.label}
+        ${res.offset ? ` • fixed ${res.offset}px` : ' • clean'}
+      </div>
+    `;
 
     const btn = document.createElement('button');
-    btn.className = 'btn-primary';
-    btn.textContent = 'Download';
-    btn.onclick = () => {
-      btn.textContent = 'Saving…';
-      btn.classList.add('downloading');
-      downloadBlob(res.blob, res.outName);
-      setTimeout(() => {
-        btn.textContent = 'Download';
-        btn.classList.remove('downloading');
-      }, 1200);
-    };
-    actions.appendChild(btn);
-    successResults.push(res);
-    updateBatchBar();
+    btn.className='btn-primary';
+    btn.textContent='Download';
+    btn.onclick=()=>download(res.blob,res.name);
+
+    card.append(icon,info,btn);
+    success.push(res);
+
+    document.getElementById('batch-bar').style.display='flex';
+    document.getElementById('batch-label').textContent =
+      `${success.length} file(s) ready`;
   } else {
-    icon.style.background = 'var(--red-bg)';
-    icon.style.color = 'var(--red-text)';
-    icon.textContent = '!';
-    info.innerHTML = `<div class="card-name">${res.file.name}</div>
-      <div class="card-meta" style="color:var(--red-text)">${res.reason}</div>`;
+    icon.textContent='!';
+    info.innerHTML=`
+      <div class="card-name">${res.file.name}</div>
+      <div class="card-meta">${res.reason}</div>
+    `;
+    card.append(icon,info);
   }
 
-  card.appendChild(icon);
-  card.appendChild(info);
-  card.appendChild(actions);
   return card;
 }
 
-async function handleFiles(files) {
-  const resultsEl = document.getElementById('results');
+async function handle(files){
+  const results = document.getElementById('results');
 
-  if (resultsEl.children.length === 0 && files.length > 0) {
-    // first batch — no divider needed
-  } else if (files.length > 0) {
-    const div = document.createElement('div');
-    div.className = 'divider';
-    div.innerHTML = '<div class="divider-line"></div><span class="divider-text">new batch</span><div class="divider-line"></div>';
-    resultsEl.appendChild(div);
-  }
+  for(const f of files){
+    const temp = document.createElement('div');
+    temp.className='card';
+    temp.innerHTML = `<div class="card-meta">Processing ${f.name}...</div>`;
+    results.appendChild(temp);
 
-  for (const file of files) {
-    const placeholder = document.createElement('div');
-    placeholder.className = 'card';
-    placeholder.style.color = 'var(--text2)';
-    placeholder.style.fontSize = '13px';
-    placeholder.innerHTML = `<div class="card-icon" style="background:var(--surface2)"></div>
-      <div class="card-info"><div class="card-name downloading">${file.name}</div><div class="card-meta">Processing…</div></div>`;
-    resultsEl.appendChild(placeholder);
-
-    const res = await processFile(file);
-    resultsEl.replaceChild(renderCard(res), placeholder);
+    const res = await process(f);
+    results.replaceChild(render(res), temp);
   }
 }
 
-const dropZone = document.getElementById('drop-zone');
+const drop = document.getElementById('drop-zone');
 const fileInput = document.getElementById('file-input');
 
-dropZone.addEventListener('dragover', (e) => {
+drop.ondragover = e => { e.preventDefault(); drop.classList.add('drag-over'); };
+drop.ondragleave = () => drop.classList.remove('drag-over');
+drop.ondrop = e => {
   e.preventDefault();
-  dropZone.classList.add('drag-over');
-});
-['dragleave','dragend'].forEach(ev =>
-  dropZone.addEventListener(ev, () => dropZone.classList.remove('drag-over'))
-);
-dropZone.addEventListener('drop', (e) => {
-  e.preventDefault();
-  dropZone.classList.remove('drag-over');
-  const files = [...e.dataTransfer.files].filter(f => f.name.toLowerCase().endsWith('.ufont'));
-  if (files.length) handleFiles(files);
-});
-dropZone.addEventListener('click', (e) => {
-  if (e.target.tagName !== 'BUTTON') fileInput.click();
-});
-fileInput.addEventListener('change', () => {
-  if (fileInput.files.length) handleFiles([...fileInput.files]);
-  fileInput.value = '';
-});
+  drop.classList.remove('drag-over');
+  handle([...e.dataTransfer.files].filter(f=>f.name.endsWith('.ufont')));
+};
+
+fileInput.onchange = () => handle([...fileInput.files]);
 </script>
 </body>
 </html>
