@@ -6,9 +6,10 @@
 <title>UFont Converter</title>
 
 <style>
-/* -------------------------
-   RESET + BASE
---------------------------*/
+/* =========================
+   MODERN LANDING STYLE
+========================= */
+
 * {
   margin: 0;
   padding: 0;
@@ -16,272 +17,305 @@
 }
 
 :root {
-  --bg1: #0f172a;
-  --bg2: #111827;
+  --bg1: #0b1020;
+  --bg2: #111a33;
   --card: rgba(255,255,255,0.06);
-  --card2: rgba(255,255,255,0.09);
-  --border: rgba(255,255,255,0.12);
+  --card2: rgba(255,255,255,0.1);
   --text: #e5e7eb;
   --muted: #9ca3af;
-
-  --green: #22c55e;
-  --red: #ef4444;
-  --blue: #3b82f6;
-
-  --radius: 14px;
+  --accent: #60a5fa;
+  --accent2: #a78bfa;
+  --border: rgba(255,255,255,0.12);
+  --radius: 16px;
 }
 
-/* LIGHT MODE */
 @media (prefers-color-scheme: light) {
   :root {
-    --bg1: #f5f7fb;
+    --bg1: #f6f7fb;
     --bg2: #eef2ff;
     --card: rgba(255,255,255,0.7);
     --card2: rgba(255,255,255,0.9);
-    --border: rgba(0,0,0,0.08);
     --text: #111827;
     --muted: #6b7280;
+    --border: rgba(0,0,0,0.08);
   }
 }
 
-/* -------------------------
-   BACKGROUND
---------------------------*/
 body {
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  font-family: ui-sans-serif, system-ui;
+  background: radial-gradient(circle at top, var(--bg2), var(--bg1));
+  color: var(--text);
   min-height: 100vh;
+}
+
+/* =========================
+   NAV
+========================= */
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  align-items: center;
+}
+
+nav h1 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 13px;
+}
+
+nav a:hover {
+  color: var(--text);
+}
+
+/* =========================
+   HERO
+========================= */
+.hero {
+  text-align: center;
+  padding: 80px 20px 40px;
+}
+
+.hero h2 {
+  font-size: 44px;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  max-width: 600px;
+  margin: auto;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.badges {
+  margin-top: 20px;
   display: flex;
   justify-content: center;
-  padding: 40px 16px;
-  color: var(--text);
-  background: radial-gradient(circle at top, var(--bg2), var(--bg1));
+  gap: 10px;
 }
 
-/* -------------------------
-   LAYOUT
---------------------------*/
-.container {
-  width: 100%;
-  max-width: 620px;
+.badge {
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--card);
+  border: 1px solid var(--border);
 }
 
-/* HEADER */
-header {
-  margin-bottom: 24px;
-  text-align: center;
+/* =========================
+   FEATURES
+========================= */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 16px;
+  max-width: 1000px;
+  margin: 60px auto;
+  padding: 0 20px;
 }
 
-header h1 {
-  font-size: 22px;
-  letter-spacing: 0.3px;
+.feature {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 18px;
+  border-radius: var(--radius);
+  backdrop-filter: blur(10px);
 }
 
-header p {
+.feature h3 {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.feature p {
   font-size: 13px;
   color: var(--muted);
-  margin-top: 6px;
 }
 
-/* -------------------------
-   DROP ZONE
---------------------------*/
-#drop-zone {
+/* =========================
+   TOOL SECTION
+========================= */
+.section {
+  max-width: 800px;
+  margin: 80px auto;
+  padding: 0 20px;
+}
+
+.card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 34px 20px;
-  text-align: center;
+  padding: 24px;
   backdrop-filter: blur(12px);
-  transition: 0.2s ease;
-  cursor: pointer;
+}
+
+/* DROP ZONE */
+#drop-zone {
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 40px;
+  text-align: center;
+  transition: 0.2s;
 }
 
 #drop-zone:hover {
-  transform: translateY(-2px);
   background: var(--card2);
+  transform: translateY(-2px);
 }
 
-#drop-zone.drag-over {
-  border-color: var(--blue);
-  transform: scale(1.01);
-}
-
-.drop-icon {
-  font-size: 28px;
-  margin-bottom: 12px;
-  opacity: 0.8;
-}
-
-#drop-zone h2 {
-  font-size: 16px;
-  margin-bottom: 6px;
-}
-
-#drop-zone p {
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 16px;
-}
-
-/* -------------------------
-   BUTTONS
---------------------------*/
 button {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
   border: 1px solid var(--border);
   background: transparent;
   color: var(--text);
-  padding: 8px 14px;
-  border-radius: 10px;
-  font-size: 13px;
   cursor: pointer;
-  transition: 0.15s ease;
 }
 
 button:hover {
   background: rgba(255,255,255,0.08);
 }
 
-.btn-primary {
-  background: var(--blue);
-  border-color: transparent;
+.btn {
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border: none;
   color: white;
 }
 
-.btn-primary:hover {
-  opacity: 0.9;
-}
-
-/* -------------------------
-   RESULTS
---------------------------*/
+/* RESULTS */
 #results {
-  margin-top: 18px;
+  margin-top: 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
-/* CARD */
-.card {
+.file {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px;
-  border-radius: var(--radius);
-  background: var(--card);
-  border: 1px solid var(--border);
-  backdrop-filter: blur(10px);
-  transition: 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-}
-
-/* ICON */
-.card-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 11px;
-  background: rgba(255,255,255,0.1);
-}
-
-/* INFO */
-.card-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.card-name {
-  font-size: 14px;
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.card-meta {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 2px;
-}
-
-/* BADGES */
-.badge {
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  margin-left: 6px;
-}
-
-/* BATCH BAR */
-#batch-bar {
-  display: none;
   justify-content: space-between;
-  align-items: center;
-  margin-top: 16px;
-  padding: 12px 14px;
-  border-radius: var(--radius);
-  background: var(--card);
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
   border: 1px solid var(--border);
+  font-size: 13px;
 }
 
-/* LOADING */
-.downloading {
-  opacity: 0.5;
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+  font-size: 12px;
 }
 </style>
 </head>
 
 <body>
-<div class="container">
 
-  <header>
-    <h1>UFont Converter</h1>
-    <p>Fixes broken .ufont files and extracts real font formats</p>
-  </header>
+<nav>
+  <h1>UFont Converter</h1>
+  <div>
+    <a href="#features">Features</a>
+    <a href="#tool">Tool</a>
+  </div>
+</nav>
 
-  <div id="drop-zone">
-    <div class="drop-icon">⬇</div>
-    <h2>Drop .ufont files here</h2>
-    <p>TTF · OTF · WOFF · WOFF2 supported</p>
-    <button onclick="fileInput.click()">Choose files</button>
-    <input type="file" id="file-input" accept=".ufont" multiple hidden>
+<!-- HERO -->
+<section class="hero">
+  <h2>Fix broken fonts instantly</h2>
+  <p>
+    UFont Converter detects real font formats inside corrupted or wrapped .ufont files
+    and restores them into usable TTF, OTF, WOFF, or WOFF2 files.
+  </p>
+
+  <div class="badges">
+    <div class="badge">Fast Processing</div>
+    <div class="badge">No Upload Required</div>
+    <div class="badge">Runs in Browser</div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="features">
+  <div class="feature">
+    <h3>🔍 Smart Detection</h3>
+    <p>Automatically scans binary signatures to identify real font formats.</p>
   </div>
 
-  <div id="batch-bar">
-    <span id="batch-label"></span>
-    <button class="btn-primary" onclick="downloadAll()">Download all</button>
+  <div class="feature">
+    <h3>🛠 Auto Repair</h3>
+    <p>Fixes broken headers and offsets inside malformed .ufont containers.</p>
   </div>
 
-  <div id="results"></div>
-</div>
+  <div class="feature">
+    <h3>⚡ Instant Output</h3>
+    <p>Download cleaned fonts instantly without any server processing.</p>
+  </div>
+
+  <div class="feature">
+    <h3>🔒 Privacy First</h3>
+    <p>Everything runs locally in your browser — files never leave your device.</p>
+  </div>
+</section>
+
+<!-- TOOL -->
+<section id="tool" class="section">
+  <div class="card">
+
+    <h2 style="margin-bottom:10px;">Font Converter</h2>
+    <p style="color:var(--muted); font-size:13px; margin-bottom:16px;">
+      Drop your .ufont files below to extract usable fonts.
+    </p>
+
+    <div id="drop-zone">
+      <p>Drag & drop .ufont files here</p>
+      <input type="file" id="file-input" multiple accept=".ufont" hidden>
+      <button onclick="fileInput.click()" class="btn">Choose Files</button>
+    </div>
+
+    <div id="results"></div>
+  </div>
+</section>
+
+<footer>
+  Built as a modern font utility • Runs fully in-browser
+</footer>
 
 <script>
 const SIGNATURES = [
-  { magic:[0x00,0x01,0x00,0x00], ext:'ttf', label:'TrueType' },
-  { magic:[0x4F,0x54,0x54,0x4F], ext:'otf', label:'OpenType' },
+  { magic:[0x00,0x01,0x00,0x00], ext:'ttf', label:'TTF' },
+  { magic:[0x4F,0x54,0x54,0x4F], ext:'otf', label:'OTF' },
   { magic:[0x77,0x4F,0x46,0x46], ext:'woff', label:'WOFF' },
   { magic:[0x77,0x4F,0x46,0x32], ext:'woff2', label:'WOFF2' },
 ];
 
-let success = [];
+const fileInput = document.getElementById("file-input");
+const drop = document.getElementById("drop-zone");
+const results = document.getElementById("results");
+
+let done = [];
 
 function detect(buf){
   const v = new Uint8Array(buf);
   for(const s of SIGNATURES){
     for(let i=0;i<64;i++){
-      if(s.magic.every((b,idx)=>v[i+idx]===b)){
-        return { ...s, offset:i };
+      if(s.magic.every((b,j)=>v[i+j]===b)){
+        return {...s, offset:i};
       }
     }
   }
-  return null;
 }
 
 async function process(file){
@@ -289,103 +323,57 @@ async function process(file){
   const d = detect(buf);
 
   if(!d){
-    return { file, ok:false, reason:'No font signature found' };
+    return { ok:false, name:file.name, reason:"Unknown format" };
   }
 
   const fixed = d.offset ? buf.slice(d.offset) : buf;
-  const blob = new Blob([fixed], {type:'font/'+d.ext});
+  const blob = new Blob([fixed], {type:"font/"+d.ext});
 
   return {
     ok:true,
-    blob,
-    name:file.name.replace(/\.ufont$/i,'')+'.'+d.ext,
-    label:d.label,
-    offset:d.offset
+    name:file.name.replace(".ufont","")+"."+d.ext,
+    blob
   };
 }
 
-function download(blob,name){
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href=url; a.download=name;
-  a.click();
-  URL.revokeObjectURL(url);
-}
+function render(r){
+  const div = document.createElement("div");
+  div.className="file";
 
-function downloadAll(){
-  success.forEach(f=>download(f.blob,f.name));
-}
-
-function render(res){
-  const card = document.createElement('div');
-  card.className='card';
-
-  const icon = document.createElement('div');
-  icon.className='card-icon';
-
-  const info = document.createElement('div');
-  info.className='card-info';
-
-  if(res.ok){
-    icon.textContent = res.name.split('.').pop().toUpperCase();
-
-    info.innerHTML = `
-      <div class="card-name">${res.name}</div>
-      <div class="card-meta">
-        ${res.label}
-        ${res.offset ? ` • fixed ${res.offset}px` : ' • clean'}
-      </div>
-    `;
-
-    const btn = document.createElement('button');
-    btn.className='btn-primary';
-    btn.textContent='Download';
-    btn.onclick=()=>download(res.blob,res.name);
-
-    card.append(icon,info,btn);
-    success.push(res);
-
-    document.getElementById('batch-bar').style.display='flex';
-    document.getElementById('batch-label').textContent =
-      `${success.length} file(s) ready`;
+  if(!r.ok){
+    div.textContent = `${r.name} — ${r.reason}`;
   } else {
-    icon.textContent='!';
-    info.innerHTML=`
-      <div class="card-name">${res.file.name}</div>
-      <div class="card-meta">${res.reason}</div>
+    div.innerHTML = `
+      <span>${r.name}</span>
+      <button>Download</button>
     `;
-    card.append(icon,info);
+    div.querySelector("button").onclick = () => {
+      const url = URL.createObjectURL(r.blob);
+      const a = document.createElement("a");
+      a.href=url;
+      a.download=r.name;
+      a.click();
+    };
+    done.push(r);
   }
 
-  return card;
+  results.appendChild(div);
 }
 
 async function handle(files){
-  const results = document.getElementById('results');
-
   for(const f of files){
-    const temp = document.createElement('div');
-    temp.className='card';
-    temp.innerHTML = `<div class="card-meta">Processing ${f.name}...</div>`;
-    results.appendChild(temp);
-
-    const res = await process(f);
-    results.replaceChild(render(res), temp);
+    render(await process(f));
   }
 }
 
-const drop = document.getElementById('drop-zone');
-const fileInput = document.getElementById('file-input');
-
-drop.ondragover = e => { e.preventDefault(); drop.classList.add('drag-over'); };
-drop.ondragleave = () => drop.classList.remove('drag-over');
+drop.ondragover = e => e.preventDefault();
 drop.ondrop = e => {
   e.preventDefault();
-  drop.classList.remove('drag-over');
-  handle([...e.dataTransfer.files].filter(f=>f.name.endsWith('.ufont')));
+  handle([...e.dataTransfer.files]);
 };
 
-fileInput.onchange = () => handle([...fileInput.files]);
+fileInput.onchange = e => handle([...e.target.files]);
 </script>
+
 </body>
 </html>
