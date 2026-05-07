@@ -1,379 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>UFont Converter</title>
-
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
-/* =========================
-   MODERN LANDING STYLE
-========================= */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#1c1c1c;
+  --surface:#252525;
+  --surface2:#2c2c2c;
+  --border:#3a3a3a;
+  --border2:#444;
+  --text:#d4d4d4;
+  --muted:#888;
+  --dim:#555;
+  --orange:#e8a020;
+  --orange-d:#c07e10;
+  --green:#5a9e5a;
+  --red:#b04040;
+}
+body{
+  font-family:'Roboto',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  font-size:13px;
 }
 
-:root {
-  --bg1: #0b1020;
-  --bg2: #111a33;
-  --card: rgba(255,255,255,0.06);
-  --card2: rgba(255,255,255,0.1);
-  --text: #e5e7eb;
-  --muted: #9ca3af;
-  --accent: #60a5fa;
-  --accent2: #a78bfa;
-  --border: rgba(255,255,255,0.12);
-  --radius: 16px;
+nav{
+  display:flex;align-items:center;gap:12px;
+  height:44px;padding:0 24px;
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+}
+.logo-mark{
+  width:28px;height:28px;
+  background:var(--orange);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Roboto Condensed',sans-serif;
+  font-weight:700;font-size:13px;color:#111;
+}
+.logo-title{
+  font-family:'Roboto Condensed',sans-serif;
+  font-size:15px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.6px;
+  color:var(--text);
+}
+.logo-version{
+  font-family:'Roboto Condensed',sans-serif;
+  font-size:10px;color:var(--dim);
+  background:var(--surface2);
+  border:1px solid var(--border);
+  padding:2px 7px;letter-spacing:.3px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg1: #f6f7fb;
-    --bg2: #eef2ff;
-    --card: rgba(255,255,255,0.7);
-    --card2: rgba(255,255,255,0.9);
-    --text: #111827;
-    --muted: #6b7280;
-    --border: rgba(0,0,0,0.08);
-  }
+.page{max-width:680px;margin:60px auto;padding:0 24px 60px;}
+
+h1{
+  font-family:'Roboto Condensed',sans-serif;
+  font-size:28px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.5px;
+  color:#e0e0e0;line-height:1;
+  margin-bottom:10px;
+}
+h1 span{color:var(--orange);}
+.subtitle{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:32px;}
+
+.section-label{
+  font-family:'Roboto Condensed',sans-serif;
+  font-size:10px;text-transform:uppercase;letter-spacing:.8px;
+  color:var(--muted);
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:10px;
+}
+.section-label::before{content:'';width:2px;height:12px;background:var(--orange);}
+
+.drop-zone{
+  border:1px dashed var(--border2);
+  background:var(--surface);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:14px;padding:52px 24px;
+  cursor:pointer;
+  transition:border-color .15s,background .15s;
+}
+.drop-zone:hover,.drop-zone.drag{
+  border-color:var(--orange);
+  background:#231f16;
+}
+.drop-icon{
+  width:52px;height:52px;
+  border:1px solid var(--border2);
+  background:var(--surface2);
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .15s;
+}
+.drop-zone:hover .drop-icon,.drop-zone.drag .drop-icon{border-color:var(--orange);}
+.drop-icon svg{width:24px;height:24px;stroke:var(--dim);transition:stroke .15s;}
+.drop-zone:hover .drop-icon svg,.drop-zone.drag .drop-icon svg{stroke:var(--orange);}
+.drop-title{
+  font-family:'Roboto Condensed',sans-serif;
+  font-size:15px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.5px;color:var(--text);
+}
+.drop-sub{font-size:11px;color:var(--muted);text-align:center;line-height:1.6;}
+.drop-btn{
+  height:32px;padding:0 22px;
+  background:var(--orange);border:none;
+  color:#111;font-family:'Roboto Condensed',sans-serif;
+  font-size:12px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.5px;
+  cursor:pointer;transition:background .12s;
+}
+.drop-btn:hover{background:var(--orange-d);}
+.drop-formats{display:flex;gap:5px;}
+.dfmt{
+  font-family:'Roboto Condensed',sans-serif;
+  font-size:9px;text-transform:uppercase;letter-spacing:.5px;
+  padding:3px 7px;
+  border:1px solid var(--border);
+  color:var(--dim);background:var(--bg);
 }
 
-body {
-  font-family: ui-sans-serif, system-ui;
-  background: radial-gradient(circle at top, var(--bg2), var(--bg1));
-  color: var(--text);
-  min-height: 100vh;
-}
+.results{margin-top:24px;}
 
-/* =========================
-   NAV
-========================= */
-nav {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px 40px;
-  align-items: center;
+.file-row{
+  display:flex;align-items:center;gap:12px;
+  padding:0 14px;height:38px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-top:none;
+  transition:background .1s;
 }
+.file-row:first-child{border-top:1px solid var(--border);}
+.file-row:hover{background:var(--surface2);}
 
-nav h1 {
-  font-size: 18px;
-  font-weight: 700;
+.fmt-tag{
+  font-family:'Roboto Condensed',sans-serif;
+  font-size:9px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.3px;
+  padding:2px 7px;min-width:42px;text-align:center;flex-shrink:0;
 }
+.fmt-ttf{background:#152840;color:#5aa0e8;border:1px solid #1e3a5a;}
+.fmt-otf{background:#152830;color:#5accc8;border:1px solid #1a3a38;}
+.fmt-woff{background:#2a1a38;color:#b06ae8;border:1px solid #3a2050;}
+.fmt-woff2{background:#22183a;color:#9060d8;border:1px solid #301e50;}
+.fmt-err{background:#2a1414;color:#d06060;border:1px solid #3a1818;}
 
-nav a {
-  color: var(--muted);
-  text-decoration: none;
-  margin-left: 20px;
-  font-size: 13px;
+.file-name{flex:1;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.file-size{font-size:11px;color:var(--dim);white-space:nowrap;flex-shrink:0;}
+.file-dl{
+  height:24px;padding:0 10px;
+  background:transparent;border:1px solid var(--border2);
+  color:var(--muted);
+  font-family:'Roboto Condensed',sans-serif;
+  font-size:10px;text-transform:uppercase;letter-spacing:.3px;
+  cursor:pointer;flex-shrink:0;
+  display:flex;align-items:center;gap:5px;
+  transition:.12s;
 }
+.file-dl:hover{border-color:var(--orange);color:var(--orange);}
+.file-dl svg{width:10px;height:10px;}
+.file-err-msg{font-size:11px;color:#c06060;flex:1;}
 
-nav a:hover {
-  color: var(--text);
+.results-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:10px;
 }
+.res-count{font-size:11px;color:var(--dim);}
+.dl-all{
+  height:28px;padding:0 14px;
+  background:var(--surface2);border:1px solid var(--border2);
+  color:var(--muted);
+  font-family:'Roboto Condensed',sans-serif;
+  font-size:10px;text-transform:uppercase;letter-spacing:.4px;
+  cursor:pointer;transition:.12s;
+  display:flex;align-items:center;gap:6px;
+}
+.dl-all:hover{border-color:var(--orange);color:var(--orange);}
+.dl-all svg{width:11px;height:11px;}
 
-/* =========================
-   HERO
-========================= */
-.hero {
-  text-align: center;
-  padding: 80px 20px 40px;
-}
-
-.hero h2 {
-  font-size: 44px;
-  line-height: 1.1;
-  margin-bottom: 16px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.hero p {
-  max-width: 600px;
-  margin: auto;
-  color: var(--muted);
-  font-size: 15px;
-}
-
-.badges {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.badge {
-  font-size: 12px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: var(--card);
-  border: 1px solid var(--border);
-}
-
-/* =========================
-   FEATURES
-========================= */
-.features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-  gap: 16px;
-  max-width: 1000px;
-  margin: 60px auto;
-  padding: 0 20px;
-}
-
-.feature {
-  background: var(--card);
-  border: 1px solid var(--border);
-  padding: 18px;
-  border-radius: var(--radius);
-  backdrop-filter: blur(10px);
-}
-
-.feature h3 {
-  font-size: 15px;
-  margin-bottom: 8px;
-}
-
-.feature p {
-  font-size: 13px;
-  color: var(--muted);
-}
-
-/* =========================
-   TOOL SECTION
-========================= */
-.section {
-  max-width: 800px;
-  margin: 80px auto;
-  padding: 0 20px;
-}
-
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px;
-  backdrop-filter: blur(12px);
-}
-
-/* DROP ZONE */
-#drop-zone {
-  border: 1px dashed var(--border);
-  border-radius: var(--radius);
-  padding: 40px;
-  text-align: center;
-  transition: 0.2s;
-}
-
-#drop-zone:hover {
-  background: var(--card2);
-  transform: translateY(-2px);
-}
-
-button {
-  margin-top: 12px;
-  padding: 10px 14px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text);
-  cursor: pointer;
-}
-
-button:hover {
-  background: rgba(255,255,255,0.08);
-}
-
-.btn {
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  border: none;
-  color: white;
-}
-
-/* RESULTS */
-#results {
-  margin-top: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.file {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--border);
-  font-size: 13px;
-}
-
-/* FOOTER */
-footer {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--muted);
-  font-size: 12px;
-}
+#file-input{display:none;}
 </style>
 </head>
-
 <body>
 
 <nav>
-  <h1>UFont Converter</h1>
-  <div>
-    <a href="#features">Features</a>
-    <a href="#tool">Tool</a>
-  </div>
+  <div class="logo-mark">UF</div>
+  <div class="logo-title">UFont Converter</div>
+  <div class="logo-version">v1.0</div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <h2>Fix broken fonts instantly</h2>
-  <p>
-    UFont Converter detects real font formats inside corrupted or wrapped .ufont files
-    and restores them into usable TTF, OTF, WOFF, or WOFF2 files.
-  </p>
+<div class="page">
+  <h1>Fix broken <span>fonts</span> instantly</h1>
+  <p class="subtitle">Detects real font formats inside corrupted or wrapped .ufont files and converts them to usable TTF, OTF, WOFF, or WOFF2 — entirely in your browser, nothing uploaded.</p>
 
-  <div class="badges">
-    <div class="badge">Fast Processing</div>
-    <div class="badge">No Upload Required</div>
-    <div class="badge">Runs in Browser</div>
-  </div>
-</section>
+  <div class="section-label">Asset Import</div>
 
-<!-- FEATURES -->
-<section id="features" class="features">
-  <div class="feature">
-    <h3>🔍 Smart Detection</h3>
-    <p>Automatically scans binary signatures to identify real font formats.</p>
-  </div>
-
-  <div class="feature">
-    <h3>🛠 Auto Repair</h3>
-    <p>Fixes broken headers and offsets inside malformed .ufont containers.</p>
-  </div>
-
-  <div class="feature">
-    <h3>⚡ Instant Output</h3>
-    <p>Download cleaned fonts instantly without any server processing.</p>
-  </div>
-
-  <div class="feature">
-    <h3>🔒 Privacy First</h3>
-    <p>Everything runs locally in your browser — files never leave your device.</p>
-  </div>
-</section>
-
-<!-- TOOL -->
-<section id="tool" class="section">
-  <div class="card">
-
-    <h2 style="margin-bottom:10px;">Font Converter</h2>
-    <p style="color:var(--muted); font-size:13px; margin-bottom:16px;">
-      Drop your .ufont files below to extract usable fonts.
-    </p>
-
-    <div id="drop-zone">
-      <p>Drag & drop .ufont files here</p>
-      <input type="file" id="file-input" multiple accept=".ufont" hidden>
-      <button onclick="fileInput.click()" class="btn">Choose Files</button>
+  <div class="drop-zone" id="drop-zone">
+    <input type="file" id="file-input" multiple accept=".ufont,.ttf,.otf,.woff,.woff2"/>
+    <div class="drop-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+        <path d="M14 2v6h6M12 13v6M9 16l3-3 3 3"/>
+      </svg>
     </div>
-
-    <div id="results"></div>
+    <div class="drop-title">Drop .ufont files here</div>
+    <p class="drop-sub">Drag &amp; drop font files, or click to browse.<br>Binary signatures scanned automatically.</p>
+    <button class="drop-btn" onclick="document.getElementById('file-input').click()">Choose Files</button>
+    <div class="drop-formats">
+      <div class="dfmt">TTF</div>
+      <div class="dfmt">OTF</div>
+      <div class="dfmt">WOFF</div>
+      <div class="dfmt">WOFF2</div>
+      <div class="dfmt">.ufont</div>
+    </div>
   </div>
-</section>
 
-<footer>
-  Built as a modern font utility • Runs fully in-browser
-</footer>
+  <div class="results" id="results" style="display:none">
+    <div id="file-list"></div>
+    <div class="results-footer">
+      <span class="res-count" id="res-count"></span>
+      <button class="dl-all" id="dl-all">
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+          <path d="M6 1v7M3 6l3 3 3-3M1 11h10"/>
+        </svg>
+        Export All
+      </button>
+    </div>
+  </div>
+</div>
 
 <script>
-const SIGNATURES = [
-  { magic:[0x00,0x01,0x00,0x00], ext:'ttf', label:'TTF' },
-  { magic:[0x4F,0x54,0x54,0x4F], ext:'otf', label:'OTF' },
-  { magic:[0x77,0x4F,0x46,0x46], ext:'woff', label:'WOFF' },
-  { magic:[0x77,0x4F,0x46,0x32], ext:'woff2', label:'WOFF2' },
+const SIGS=[
+  {magic:[0x00,0x01,0x00,0x00],ext:'ttf',label:'TTF'},
+  {magic:[0x4F,0x54,0x54,0x4F],ext:'otf',label:'OTF'},
+  {magic:[0x77,0x4F,0x46,0x46],ext:'woff',label:'WOFF'},
+  {magic:[0x77,0x4F,0x46,0x32],ext:'woff2',label:'WOFF2'},
 ];
 
-const fileInput = document.getElementById("file-input");
-const drop = document.getElementById("drop-zone");
-const results = document.getElementById("results");
+const dropZone=document.getElementById('drop-zone');
+const fileInput=document.getElementById('file-input');
+const fileList=document.getElementById('file-list');
+const resultsEl=document.getElementById('results');
+const resCount=document.getElementById('res-count');
+const dlAllBtn=document.getElementById('dl-all');
+let results=[];
 
-let done = [];
+function fmtBytes(b){return b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(2)+' MB';}
 
 function detect(buf){
-  const v = new Uint8Array(buf);
-  for(const s of SIGNATURES){
-    for(let i=0;i<64;i++){
-      if(s.magic.every((b,j)=>v[i+j]===b)){
-        return {...s, offset:i};
-      }
-    }
-  }
+  const v=new Uint8Array(buf);
+  for(const s of SIGS)
+    for(let i=0;i<64;i++)
+      if(s.magic.every((b,j)=>v[i+j]===b)) return{...s,offset:i};
+  return null;
 }
 
-async function process(file){
-  const buf = await file.arrayBuffer();
-  const d = detect(buf);
-
-  if(!d){
-    return { ok:false, name:file.name, reason:"Unknown format" };
-  }
-
-  const fixed = d.offset ? buf.slice(d.offset) : buf;
-  const blob = new Blob([fixed], {type:"font/"+d.ext});
-
-  return {
-    ok:true,
-    name:file.name.replace(".ufont","")+"."+d.ext,
-    blob
-  };
+async function processFile(file){
+  const buf=await file.arrayBuffer();
+  const d=detect(buf);
+  if(!d) return{ok:false,name:file.name};
+  const fixed=d.offset?buf.slice(d.offset):buf;
+  return{ok:true,outName:file.name.replace(/\.ufont$/i,'.'+d.ext),blob:new Blob([fixed],{type:'font/'+d.ext}),fmt:d,outSize:fixed.byteLength};
 }
 
-function render(r){
-  const div = document.createElement("div");
-  div.className="file";
+function fmtClass(ext){return{ttf:'fmt-ttf',otf:'fmt-otf',woff:'fmt-woff',woff2:'fmt-woff2'}[ext]||'fmt-err';}
 
+function dl(r){
+  const url=URL.createObjectURL(r.blob);
+  Object.assign(document.createElement('a'),{href:url,download:r.outName}).click();
+  setTimeout(()=>URL.revokeObjectURL(url),5000);
+}
+
+function renderRow(r){
+  const row=document.createElement('div');
+  row.className='file-row';
   if(!r.ok){
-    div.textContent = `${r.name} — ${r.reason}`;
+    row.innerHTML=`<div class="fmt-tag fmt-err">ERR</div><div class="file-err-msg">${r.name} — no matching signature</div>`;
   } else {
-    div.innerHTML = `
-      <span>${r.name}</span>
-      <button>Download</button>
-    `;
-    div.querySelector("button").onclick = () => {
-      const url = URL.createObjectURL(r.blob);
-      const a = document.createElement("a");
-      a.href=url;
-      a.download=r.name;
-      a.click();
-    };
-    done.push(r);
+    row.innerHTML=`
+      <div class="fmt-tag ${fmtClass(r.fmt.ext)}">${r.fmt.label}</div>
+      <div class="file-name">${r.outName}</div>
+      <div class="file-size">${fmtBytes(r.outSize)}</div>
+      <button class="file-dl">
+        <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+          <path d="M6 1v7M3 6l3 3 3-3M1 11h10"/>
+        </svg>
+        Save
+      </button>`;
+    row.querySelector('.file-dl').onclick=()=>dl(r);
   }
-
-  results.appendChild(div);
+  fileList.appendChild(row);
 }
 
 async function handle(files){
+  if(!files.length) return;
   for(const f of files){
-    render(await process(f));
+    const r=await processFile(f);
+    results.push(r);
+    renderRow(r);
   }
+  const ok=results.filter(r=>r.ok).length;
+  resultsEl.style.display='';
+  resCount.textContent=`${ok} of ${results.length} converted`;
+  dlAllBtn.style.display=ok?'':'none';
 }
 
-drop.ondragover = e => e.preventDefault();
-drop.ondrop = e => {
-  e.preventDefault();
-  handle([...e.dataTransfer.files]);
-};
-
-fileInput.onchange = e => handle([...e.target.files]);
+dlAllBtn.onclick=()=>results.filter(r=>r.ok).forEach(dl);
+dropZone.ondragover=e=>{e.preventDefault();dropZone.classList.add('drag');};
+dropZone.ondragleave=()=>dropZone.classList.remove('drag');
+dropZone.ondrop=e=>{e.preventDefault();dropZone.classList.remove('drag');handle([...e.dataTransfer.files]);};
+fileInput.onchange=e=>handle([...e.target.files]);
 </script>
-
 </body>
 </html>
